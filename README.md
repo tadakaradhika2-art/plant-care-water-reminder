@@ -1,17 +1,52 @@
-# plant_care_water_reminder
+# 🌱 Plant Care & Water Reminder
 
-A new Flutter project.
+## Team Details
 
-## Getting Started
+**Student Name:** T. Radhika  
+**Course:** B.Tech CSE  
+**Batch:** 2028  
+**Project:** Plant Care & Water Reminder
 
-This project is a starting point for a Flutter application.
+## 📌 About the Project
 
-A few resources to get you started if this is your first Flutter project:
+Plant Care & Water Reminder is a Flutter mobile application designed to help users take better care of their plants by providing timely watering reminders and plant-care information.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 🎯 Objectives
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Add and manage plants
+- Set watering schedules
+- Get timely watering reminders
+- View plant details and care instructions
+- Provide a simple and user-friendly interface
+
+## ✨ Planned Features
+
+- 🌱 Add Plant
+- 💧 Watering Reminder
+- 🔔 Notification Alerts
+- 📋 Plant List
+- 🌿 Plant Details
+- 📖 Care Instructions
+
+## 🛠️ Technologies Used
+
+- Flutter
+- Dart
+- Android Studio
+- Visual Studio Code
+- Git & GitHub
+
+## 📱 Screens
+
+The application will contain:
+
+1. Home Screen
+2. Add Plant Screen
+3. Plant Details Screen
+4. Watering Reminder/Notification
+
+## 🚀 Project Status
+
+**Currently under development.**
+
+The project is being developed as part of the Flutter UI Design Lab project.
