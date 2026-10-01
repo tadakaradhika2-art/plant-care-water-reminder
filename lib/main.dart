@@ -13,262 +13,199 @@ class PlantCareApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Plant Care',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-        ),
+        primarySwatch: Colors.green,
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+
+      // Named routes
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeScreen(),
+        '/addPlant': (context) => const AddPlantScreen(),
+        '/details': (context) => const PlantDetailsScreen(),
+      },
     );
   }
 }
+
+// ---------------- HOME SCREEN ----------------
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // MediaQuery
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Plant Care 🌱',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        title: const Text('Plant Care'),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'My Plants',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Plant card
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  child: Icon(Icons.local_florist),
+                ),
+                title: const Text('Aloe Vera'),
+                subtitle: const Text('Water every 3 days'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+
+                // Navigate using named route
+                onTap: () {
+                  Navigator.pushNamed(context, '/details');
+                },
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'Keep your plants healthy 🌱',
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
         ),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // LayoutBuilder
-          final isWideScreen = constraints.maxWidth >= 600;
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: screenWidth > 600 ? 40 : 16,
-              vertical: 16,
+      // Navigate to Add Plant screen
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/addPlant');
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+// ---------------- ADD PLANT SCREEN ----------------
+
+class AddPlantScreen extends StatelessWidget {
+  const AddPlantScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add Plant'),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const Text(
+              'Add a New Plant',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+
+            const SizedBox(height: 30),
+
+            const TextField(
+              decoration: InputDecoration(
+                labelText: 'Plant Name',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.local_florist),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const TextField(
+              decoration: InputDecoration(
+                labelText: 'Watering Schedule',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.water_drop),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.save),
+              label: const Text('Save Plant'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------- PLANT DETAILS SCREEN ----------------
+
+class PlantDetailsScreen extends StatelessWidget {
+  const PlantDetailsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plant Details'),
+      ),
+
+      body: Center(
+        child: Card(
+          margin: const EdgeInsets.all(20),
+          child: Padding(
+            padding: const EdgeInsets.all(25),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'Good Morning! 👋',
-                  style: TextStyle(
-                    fontSize: screenWidth > 600 ? 32 : 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 5),
-
-                Text(
-                  'Take care of your plants every day.',
-                  style: TextStyle(
-                    fontSize: screenWidth > 600 ? 18 : 16,
-                  ),
+                const Icon(
+                  Icons.local_florist,
+                  size: 80,
                 ),
 
                 const SizedBox(height: 20),
 
-                // Responsive statistics section
-                isWideScreen
-                    ? Row(
-                        children: [
-                          Expanded(
-                            child: _statCard(
-                              Icons.water_drop,
-                              '2',
-                              'Water Today',
-                            ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: _statCard(
-                              Icons.eco,
-                              '3',
-                              'My Plants',
-                            ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: _statCard(
-                              Icons.check_circle,
-                              '1',
-                              'Completed',
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _statCard(
-                                  Icons.water_drop,
-                                  '2',
-                                  'Water Today',
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _statCard(
-                                  Icons.eco,
-                                  '3',
-                                  'My Plants',
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          _statCard(
-                            Icons.check_circle,
-                            '1',
-                            'Completed',
-                          ),
-                        ],
-                      ),
-
-                const SizedBox(height: 25),
-
                 const Text(
-                  'My Plants',
+                  'Aloe Vera',
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
                 const SizedBox(height: 10),
 
-                // Responsive plant cards
-                isWideScreen
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _plantCard(
-                              Icons.local_florist,
-                              'Rose',
-                              'Flower',
-                              'Today',
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _plantCard(
-                              Icons.spa,
-                              'Aloe Vera',
-                              'Succulent',
-                              'Tomorrow',
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          _plantCard(
-                            Icons.local_florist,
-                            'Rose',
-                            'Flower',
-                            'Today',
-                          ),
-                          const SizedBox(height: 10),
-                          _plantCard(
-                            Icons.spa,
-                            'Aloe Vera',
-                            'Succulent',
-                            'Tomorrow',
-                          ),
-                        ],
-                      ),
+                const Text(
+                  'Water every 3 days',
+                  style: TextStyle(fontSize: 18),
+                ),
+
+                const SizedBox(height: 20),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Back'),
+                ),
               ],
             ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  // Reusable statistics widget
-  Widget _statCard(
-    IconData icon,
-    String number,
-    String label,
-  ) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              size: 35,
-              color: Colors.green,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              number,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(label),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Reusable plant card
-  Widget _plantCard(
-    IconData icon,
-    String name,
-    String type,
-    String watering,
-  ) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.green.shade100,
-              child: Icon(
-                icon,
-                color: Colors.green,
-                size: 30,
-              ),
-            ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(type),
-                  Text('Water: $watering 💧'),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right),
-          ],
+          ),
         ),
       ),
     );
