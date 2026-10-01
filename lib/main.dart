@@ -11,24 +11,17 @@ class PlantCareApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Plant Care',
+      title: 'Plant Care Water Reminder',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+        ),
         useMaterial3: true,
       ),
-
-      // Named routes
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeScreen(),
-        '/addPlant': (context) => const AddPlantScreen(),
-        '/details': (context) => const PlantDetailsScreen(),
-      },
+      home: const HomeScreen(),
     );
   }
 }
-
-// ---------------- HOME SCREEN ----------------
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,175 +30,85 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plant Care'),
+        title: const Text(
+          'My Plants',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
-
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'My Plants',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+        children: const [
+          PlantCard(
+            plantName: 'Rose',
+            wateringStatus: 'Watering: Today',
+            icon: '🌹',
+          ),
+          SizedBox(height: 12),
 
-            const SizedBox(height: 20),
+          PlantCard(
+            plantName: 'Aloe Vera',
+            wateringStatus: 'Watering: Tomorrow',
+            icon: '🌿',
+          ),
+          SizedBox(height: 12),
 
-            // Plant card
-            Card(
-              child: ListTile(
-                leading: const CircleAvatar(
-                  child: Icon(Icons.local_florist),
-                ),
-                title: const Text('Aloe Vera'),
-                subtitle: const Text('Water every 3 days'),
-                trailing: const Icon(Icons.arrow_forward_ios),
-
-                // Navigate using named route
-                onTap: () {
-                  Navigator.pushNamed(context, '/details');
-                },
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'Keep your plants healthy 🌱',
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-      ),
-
-      // Navigate to Add Plant screen
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/addPlant');
-        },
-        child: const Icon(Icons.add),
+          PlantCard(
+            plantName: 'Money Plant',
+            wateringStatus: 'Watering: In 2 days',
+            icon: '🪴',
+          ),
+        ],
       ),
     );
   }
 }
 
-// ---------------- ADD PLANT SCREEN ----------------
+class PlantCard extends StatelessWidget {
+  final String plantName;
+  final String wateringStatus;
+  final String icon;
 
-class AddPlantScreen extends StatelessWidget {
-  const AddPlantScreen({super.key});
+  const PlantCard({
+    super.key,
+    required this.plantName,
+    required this.wateringStatus,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Plant'),
-      ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const Text(
-              'Add a New Plant',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            const TextField(
-              decoration: InputDecoration(
-                labelText: 'Plant Name',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.local_florist),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const TextField(
-              decoration: InputDecoration(
-                labelText: 'Watering Schedule',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.water_drop),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.save),
-              label: const Text('Save Plant'),
-            ),
-          ],
+    return Card(
+      elevation: 3,
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: Text(
+          icon,
+          style: const TextStyle(
+            fontSize: 40,
+          ),
         ),
-      ),
-    );
-  }
-}
-
-// ---------------- PLANT DETAILS SCREEN ----------------
-
-class PlantDetailsScreen extends StatelessWidget {
-  const PlantDetailsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plant Details'),
-      ),
-
-      body: Center(
-        child: Card(
-          margin: const EdgeInsets.all(20),
-          child: Padding(
-            padding: const EdgeInsets.all(25),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.local_florist,
-                  size: 80,
-                ),
-
-                const SizedBox(height: 20),
-
-                const Text(
-                  'Aloe Vera',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                const Text(
-                  'Water every 3 days',
-                  style: TextStyle(fontSize: 18),
-                ),
-
-                const SizedBox(height: 20),
-
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Back'),
-                ),
-              ],
+        title: Text(
+          plantName,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text(
+            wateringStatus,
+            style: const TextStyle(
+              fontSize: 14,
             ),
           ),
+        ),
+        trailing: const Icon(
+          Icons.water_drop,
+          color: Colors.blue,
         ),
       ),
     );
