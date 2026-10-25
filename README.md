@@ -1,18 +1,20 @@
 # Plant Care Water Reminder
 
-A Flutter application demonstrating concepts from the Flutter lab syllabus.
+A Flutter application developed as part of the Flutter lab syllabus.
 
-## Getting Started
+## Experiment 1: Basic Flutter Application
 
-This project is built using Flutter and will be developed experiment by experiment according to the lab syllabus.
+### Aim
+To create and run a basic Flutter application.
 
-## Project Goals
+### Implementation
+The application uses `MaterialApp`, `Scaffold`, `AppBar`, `Text`, `Icon`, `Column`, `Center`, and `ElevatedButton` to create the initial Plant Care Water Reminder screen.
 
-- Implement Flutter widgets and layouts.
-- Build responsive user interfaces.
-- Implement navigation between screens.
-- Learn and apply state management.
-- Complete the required lab experiments with working code and screenshots.
+**Source code:** [`lib/main.dart`](lib/main.dart)
+
+### Output
+
+![Experiment 1 Output](screenshots/exp1_output.png)
 
 ## Technologies Used
 
@@ -23,12 +25,11 @@ This project is built using Flutter and will be developed experiment by experime
 
 ## How to Run
 
-1. Install Flutter and configure the development environment.
-2. Clone this repository.
-3. Open the project folder in VS Code.
-4. Run `flutter pub get`.
-5. Run `flutter run`.
+1. Clone this repository.
+2. Open the project folder in VS Code.
+3. Run `flutter pub get`.
+4. Run `flutter run`.
 
 ## Experiments
 
-Experiment details, source-code screenshots, and output screenshots will be added as each experiment is completed.
+Screenshots, explanations, and implementation details will be added as each experiment is completed.
