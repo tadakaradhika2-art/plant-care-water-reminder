@@ -1,17 +1,34 @@
-# plant_care_water_reminder
+# Plant Care Water Reminder
 
-A new Flutter project.
+A Flutter application demonstrating concepts from the Flutter lab syllabus.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is built using Flutter and will be developed experiment by experiment according to the lab syllabus.
 
-A few resources to get you started if this is your first Flutter project:
+## Project Goals
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Implement Flutter widgets and layouts.
+- Build responsive user interfaces.
+- Implement navigation between screens.
+- Learn and apply state management.
+- Complete the required lab experiments with working code and screenshots.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Technologies Used
+
+- Flutter
+- Dart
+- Visual Studio Code
+- Git and GitHub
+
+## How to Run
+
+1. Install Flutter and configure the development environment.
+2. Clone this repository.
+3. Open the project folder in VS Code.
+4. Run `flutter pub get`.
+5. Run `flutter run`.
+
+## Experiments
+
+Experiment details, source-code screenshots, and output screenshots will be added as each experiment is completed.
