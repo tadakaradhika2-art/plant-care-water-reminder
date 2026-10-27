@@ -2,76 +2,114 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const PlantCareApp());
+  runApp(const MyApp());
 }
 
-class PlantCareApp extends StatelessWidget {
-  const PlantCareApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Plant Care Water Reminder',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-        ),
+        colorSchemeSeed: Colors.green,
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const AnimationDemo(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class AnimationDemo extends StatefulWidget {
+  const AnimationDemo({super.key});
+
+  @override
+  State<AnimationDemo> createState() => _AnimationDemoState();
+}
+
+class _AnimationDemoState extends State<AnimationDemo> {
+  bool showPlant = true;
+  bool slidePlant = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plant Care'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+        title: const Text('Plant Care Animations'),
+        backgroundColor: Colors.green.shade100,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.local_florist,
-              size: 100,
-              color: Colors.green,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Plant Care Water Reminder',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 700),
+                      curve: Curves.easeInOut,
+                      left: slidePlant ? 140 : 0,
+                      right: slidePlant ? 0 : 140,
+                      top: 25,
+                      bottom: 25,
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 700),
+                        opacity: showPlant ? 1.0 : 0.2,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.local_florist,
+                                size: 60,
+                                color: Colors.green,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'My Plant',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Keep your plants healthy and hydrated!',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Your plants will thank you!'),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.water_drop),
-              label: const Text('Water Your Plant'),
-            ),
-          ],
+              const SizedBox(height: 25),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    showPlant = !showPlant;
+                  });
+                },
+                child: const Text('Fade Animation'),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    slidePlant = !slidePlant;
+                  });
+                },
+                child: const Text('Slide Animation'),
+              ),
+            ],
+          ),
         ),
       ),
     );
