@@ -160,3 +160,18 @@ Used the HTTP package to send a GET request to a public REST API. Parsed the JSO
 
 ### Result
 Successfully fetched and displayed REST API data in Flutter.
+
+
+## Experiment 10: Unit Testing and Debugging
+
+### Aim
+To write unit tests for Flutter UI components and use Flutter debugging tools to identify and fix issues.
+
+### Implementation
+Created widget tests using the `flutter_test` package to verify the application title and the presence of a `Scaffold` widget. Executed the tests using `flutter test` and analyzed the project using `flutter analyze`.
+
+### Output
+![Experiment 10 Output](screenshots/exp-10_output.png)
+
+### Result
+Successfully executed Flutter widget tests and performed debugging checks.
