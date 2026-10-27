@@ -1,5 +1,7 @@
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -16,101 +18,107 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.green,
         useMaterial3: true,
       ),
-      home: const AnimationDemo(),
+      home: const UserScreen(),
     );
   }
 }
 
-class AnimationDemo extends StatefulWidget {
-  const AnimationDemo({super.key});
+class UserScreen extends StatefulWidget {
+  const UserScreen({super.key});
 
   @override
-  State<AnimationDemo> createState() => _AnimationDemoState();
+  State<UserScreen> createState() => _UserScreenState();
 }
 
-class _AnimationDemoState extends State<AnimationDemo> {
-  bool showPlant = true;
-  bool slidePlant = false;
+class _UserScreenState extends State<UserScreen> {
+  late Future<List<dynamic>> users;
+
+  @override
+  void initState() {
+    super.initState();
+    users = fetchUsers();
+  }
+
+  Future<List<dynamic>> fetchUsers() async {
+    final response = await http.get(
+      Uri.parse('https://jsonplaceholder.typicode.com/users'),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as List<dynamic>;
+    } else {
+      throw Exception('Failed to load users');
+    }
+  }
+
+  void retryLoading() {
+    setState(() {
+      users = fetchUsers();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plant Care Animations'),
+        title: const Text('Plant Care Community'),
         backgroundColor: Colors.green.shade100,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 200,
-                width: double.infinity,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 700),
-                      curve: Curves.easeInOut,
-                      left: slidePlant ? 140 : 0,
-                      right: slidePlant ? 0 : 140,
-                      top: 25,
-                      bottom: 25,
-                      child: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 700),
-                        opacity: showPlant ? 1.0 : 0.2,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.green.shade100,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.local_florist,
-                                size: 60,
-                                color: Colors.green,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'My Plant',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+      body: FutureBuilder<List<dynamic>>(
+        future: users,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, size: 45),
+                  const SizedBox(height: 10),
+                  const Text('Unable to load data.'),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: retryLoading,
+                    child: const Text('Try Again'),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          final userList = snapshot.data!;
+
+          return ListView.builder(
+            itemCount: userList.length,
+            itemBuilder: (context, index) {
+              final user = userList[index];
+
+              return Card(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
                 ),
-              ),
-              const SizedBox(height: 25),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    showPlant = !showPlant;
-                  });
-                },
-                child: const Text('Fade Animation'),
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    slidePlant = !slidePlant;
-                  });
-                },
-                child: const Text('Slide Animation'),
-              ),
-            ],
-          ),
-        ),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.green.shade100,
+                    child: const Icon(
+                      Icons.person,
+                      color: Colors.green,
+                    ),
+                  ),
+                  title: Text(user['name'].toString()),
+                  subtitle: Text(user['email'].toString()),
+                  trailing: const Icon(Icons.eco, color: Colors.green),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

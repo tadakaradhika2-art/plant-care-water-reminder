@@ -144,3 +144,19 @@ Used AnimatedOpacity to create a fade effect and AnimatedPositioned inside Stack
 
 ### Result
 Successfully implemented fade and slide animations in Flutter.
+
+
+
+## Experiment 9: Fetching Data from a REST API
+
+### Aim
+To fetch data from a REST API, parse JSON, and display the results using Flutter widgets.
+
+### Implementation
+Used the HTTP package to send a GET request to a public REST API. Parsed the JSON response and displayed user details using ListView.builder. Implemented loading and error handling.
+
+### Output
+![Experiment 9 Output](screenshots/exp-9_output.png)
+
+### Result
+Successfully fetched and displayed REST API data in Flutter.
