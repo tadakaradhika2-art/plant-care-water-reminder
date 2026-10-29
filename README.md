@@ -14,7 +14,7 @@ The application uses `MaterialApp`, `Scaffold`, `AppBar`, `Text`, `Icon`, `Colum
 
 ### Output
 
-![Experiment 1 Output](screenshots/exp1_output.png)
+![Experiment 1 Output](screenshots/exp-1_output.png)
 
 ## Technologies Used
 
